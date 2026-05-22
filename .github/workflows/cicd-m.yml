@@ -18,20 +18,20 @@ jobs:
         run: echo "Running tests..."
 
 
-  dev-deploy:
-    runs-on: self-hosted
-    needs: test
-    steps:
-      - uses: actions/checkout@v6
-      - uses: actions/checkout@v6
-        with:
-          repository: raghudevopsb88/wmp-helm-v1
-          path: helm
-      - name: Helm Deploy
-        run: |
-          aws eks update-kubeconfig --name dev
-          argocd_admin_password=$(kubectl get secrets argocd-initial-admin-secret -o jsonpath='{.data.password}' | base64 -d)
-          make argocd-deploy image_tag=${GITHUB_SHA} argocd_server=argocd-dev.raghudevopsb88.online argocd_admin_password=${argocd_admin_password}
+  # dev-deploy:
+  #   runs-on: self-hosted
+  #   needs: test
+  #   steps:
+  #     - uses: actions/checkout@v6
+  #     - uses: actions/checkout@v6
+  #       with:
+  #         repository: raghudevopsb88/wmp-helm-v1
+  #         path: helm
+  #     - name: Helm Deploy
+  #       run: |
+  #         aws eks update-kubeconfig --name dev
+  #         argocd_admin_password=$(kubectl get secrets argocd-initial-admin-secret -o jsonpath='{.data.password}' | base64 -d)
+  #         make argocd-deploy image_tag=${GITHUB_SHA} argocd_server=argocd-dev.raghudevopsb88.online argocd_admin_password=${argocd_admin_password}
 
 
   qa-deploy:
